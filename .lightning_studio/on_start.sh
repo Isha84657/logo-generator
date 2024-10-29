@@ -15,4 +15,5 @@
 
 # pip install xgboost==2.0.
 pip install -q transformers accelerate peft diffusers Flask
+cd backend
 python run.py
