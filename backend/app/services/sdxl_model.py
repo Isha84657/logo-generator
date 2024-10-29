@@ -20,13 +20,13 @@ class SDXLModel:
 
 
     def generate_image(self, PROMPT, NUM_IMAGES, NEGATIVE_PROMPT):
-        images = self.pipeline(
+        result = self.pipeline(
             prompt = PROMPT, 
             num_inference_steps=25, 
             num_images_per_prompt = NUM_IMAGES,
             # negative_prompt = NEGATIVE_PROMPT,
         )
 
-        return images
+        return result
 
 sdxl_model = SDXLModel()
