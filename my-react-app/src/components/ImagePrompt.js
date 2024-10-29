@@ -23,7 +23,6 @@ const ImagePrompt = () => {
             const response = await axios.post('https://8000-01jb9r7naszt1w8rvy1hcvw1tb.cloudspaces.litng.ai/api/logo/gen_test', {
                 prompt,
             });
-
             setImages(response.data.images);
         } catch (err) {
             setError('Failed to fetch images. Please try again.');
@@ -34,13 +33,20 @@ const ImagePrompt = () => {
 
     const handleImageClick = (image) => {
         // Encode image data to be passed in URL
-        const encodedImage = encodeURIComponent(image);
-        navigate(`/edit_logo?image=${encodedImage}`);
+        localStorage.setItem('editImage', image);  // Store base64 in local storage
+        navigate(`/edit_logo`);
+    };
+
+    const handleSaveImage = (image, index) => {
+        const link = document.createElement('a');
+        link.href = `data:image/png;base64,${image}`;
+        link.download = `generated_image_${index + 1}.png`;
+        link.click();
     };
 
     return (
         <div className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-md">
-            <h1 className="text-2xl font-bold text-center mb-4">Image Prompt App</h1>
+            <h1 className="text-2xl font-bold text-center mb-4">AI Logo Generator</h1>
             <form onSubmit={handleSubmit} className="flex flex-col">
                 <input
                     type="text"
@@ -65,13 +71,20 @@ const ImagePrompt = () => {
                 )}
                 <div className="grid grid-cols-2 gap-4">
                     {images.map((image, index) => (
-                        <img
-                            key={index}
-                            src={`data:image/png;base64,${image}`}
-                            alt={`Generated ${index}`}
-                            className="w-full h-auto rounded shadow cursor-pointer"
-                            onClick={() => handleImageClick(image)}
-                        />
+                        <div key={index} className="relative">
+                            <img
+                                src={`data:image/png;base64,${image}`}
+                                alt={`Generated ${index}`}
+                                className="w-full h-auto rounded shadow cursor-pointer mb-2"
+                                onClick={() => handleImageClick(image)}
+                            />
+                            <button
+                                onClick={() => handleSaveImage(image, index)}
+                                className="absolute bottom-2 right-2 bg-blue-500 text-white px-2 py-1 rounded text-xs"
+                            >
+                                Save
+                            </button>
+                        </div>
                     ))}
                 </div>
             </div>
