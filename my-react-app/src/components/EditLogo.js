@@ -134,6 +134,16 @@ const EditLogo = () => {
                     />
                     {texts.map((text) => (
                         <React.Fragment key={text.id}>
+                            {/* {selectedTextId === text.id && (
+                                <Rect
+                                    x={text.x - 6.5} // Offset to make the rectangle fit nicely around the text
+                                    y={text.y - 6.5} // Offset to align with the text
+                                    width={text.text.length * text.fontSize * 0.6} // Approximate width of text
+                                    height={text.fontSize + 10} // Height of text plus padding
+                                    stroke="black"
+                                    onClick={() => setSelectedTextId(text.id)} // Keep the text selected on click
+                                />
+                            )} */}
                             <Text
                                 {...text}
                                 onClick={() => setSelectedTextId(text.id)}
@@ -147,7 +157,7 @@ const EditLogo = () => {
                                 }}
                                 draggable
                                 onDragEnd={(e) => handleTextUpdate(text.id, { x: e.target.x(), y: e.target.y() })}
-                                onDblClick={() => deleteText(text.id)}
+                            // onDblClick={() => deleteText(text.id)}
                             />
                         </React.Fragment>
                     ))}
