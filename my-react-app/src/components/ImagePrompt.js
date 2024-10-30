@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 const ImagePrompt = () => {
     const [prompt, setPrompt] = useState('');
+    const [negprompt, setNegPrompt] = useState('');
     const [images, setImages] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
@@ -13,6 +14,9 @@ const ImagePrompt = () => {
     const handleInputChange = (e) => {
         setPrompt(e.target.value);
     };
+    const handleNegInputChange = (e) => {
+        setNegPrompt(e.target.value);
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -20,8 +24,9 @@ const ImagePrompt = () => {
         setError('');
 
         try {
-            const response = await axios.post('https://8000-01jb9r7naszt1w8rvy1hcvw1tb.cloudspaces.litng.ai/api/logo/gen_test', {
+            const response = await axios.post('https://8000-01jb9r7naszt1w8rvy1hcvw1tb.cloudspaces.litng.ai/api/logo/generate', {
                 prompt,
+                negprompt
             });
             setImages(response.data.images);
         } catch (err) {
@@ -53,6 +58,14 @@ const ImagePrompt = () => {
                     value={prompt}
                     onChange={handleInputChange}
                     placeholder="Enter your prompt"
+                    required
+                    className="p-2 border border-gray-300 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <input
+                    type="text"
+                    value={negprompt}
+                    onChange={handleNegInputChange}
+                    placeholder="Enter your negative prompt"
                     required
                     className="p-2 border border-gray-300 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
