@@ -31,7 +31,7 @@ def generate_image():
         buffered = BytesIO()
         image.save(buffered, format="PNG")  # or the format you need
         img_str = base64.b64encode(buffered.getvalue()).decode("utf-8")
-        print(img_str)
+        # print(img_str)
         images_base64.append(img_str)
 
     

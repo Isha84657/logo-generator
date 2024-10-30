@@ -16,7 +16,8 @@ class SDXLModel:
             ).to(device)
         self.pipeline.load_lora_weights(Config.LoRA_WEIGHTS, adapter_name=Config.ADAPTOR_NAME)
 
-        self.pipeline.enable_model_cpu_offload()
+        if device == "cuda":
+            self.pipeline.enable_model_cpu_offload()
 
 
     def generate_image(self, PROMPT, NUM_IMAGES, NEGATIVE_PROMPT):
@@ -24,7 +25,7 @@ class SDXLModel:
             prompt = PROMPT, 
             num_inference_steps=25, 
             num_images_per_prompt = NUM_IMAGES,
-            # negative_prompt = NEGATIVE_PROMPT,
+            negative_prompt = NEGATIVE_PROMPT,
         )
 
         return result
